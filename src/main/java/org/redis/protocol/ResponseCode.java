@@ -1,9 +1,9 @@
 package org.redis.protocol;
 
 public enum ResponseCode {
-    ERROR(-1),
-    OK(0),
-    NOT_FOUND(1);
+    ERROR(0),
+    OK(1),
+    NOT_FOUND(2);
 
     public int getCode() {
         return code;

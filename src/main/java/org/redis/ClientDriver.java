@@ -9,7 +9,7 @@ public class ClientDriver {
         Socket clientSocket = new Socket("127.0.0.1", 7878);
         DataOutputStream out = new DataOutputStream(clientSocket.getOutputStream());
         DataInputStream in = new DataInputStream(clientSocket.getInputStream());
-
+        out.writeInt(24);
         out.write(1);
         out.write(3);
         out.writeInt(3);
@@ -25,9 +25,12 @@ public class ClientDriver {
         out.write('e');
         out.write('s');
         out.write('s');
+        int size = out.size();
+
+
+        System.out.println(in.read());
         out.flush();
         out.close();
-
 
 
     }

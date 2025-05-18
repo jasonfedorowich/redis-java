@@ -1,8 +1,7 @@
 package org.redis;
 
 import org.redis.cache.KVCache;
-import org.redis.io.BlockingServer;
-import org.redis.io.CacheManager;
+import org.redis.cache.CacheManager;
 import org.redis.io.NonBlockingServer;
 
 import java.util.concurrent.Executors;
@@ -13,10 +12,9 @@ public class Main {
     private static final int NUMBER_OF_THREADS = 10;
     private static final int PORT = 7878;
     public static void main(String[] args) {
-        System.out.println("Hello world!");
-        var executorService = Executors.newFixedThreadPool(NUMBER_OF_THREADS);
-        NonBlockingServer blockingServer = NonBlockingServer.open(PORT, executorService, new CacheManager(KVCache.newSimpleInMemoryCache()));
-
+        //todo add better logging
+        System.out.println("Server started....");
+        NonBlockingServer blockingServer = NonBlockingServer.open(PORT, new CacheManager(KVCache.newSimpleInMemoryCache()), NUMBER_OF_THREADS);
         while(true){
             blockingServer.accept();
             //executorService.execute(new ThreadHandler(socket));

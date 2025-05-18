@@ -1,7 +1,6 @@
-package org.redis.io;
+package org.redis.cache;
 
 import lombok.RequiredArgsConstructor;
-import org.redis.cache.KVCache;
 import org.redis.protocol.*;
 
 @RequiredArgsConstructor
