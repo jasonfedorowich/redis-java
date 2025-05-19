@@ -6,7 +6,7 @@ import org.redis.protocol.*;
 @RequiredArgsConstructor
 public class CacheManager {
 
-    private final KVCache kvCache;
+    private final Cache cache;
 
     public Response handle(Request request){
         if(request instanceof GetRequest g){
@@ -22,7 +22,7 @@ public class CacheManager {
 
     private Response handleDel(DeleteRequest deleteRequest) {
         ResponseCode responseCode;
-        byte[] data = kvCache.delete(deleteRequest.key());
+        byte[] data = cache.delete(deleteRequest.key());
         if(data == null){
             responseCode = ResponseCode.NOT_FOUND;
         }else{
@@ -36,7 +36,7 @@ public class CacheManager {
     }
 
     private Response handleSet(SetRequest setRequest) {
-        kvCache.set(setRequest.key(), setRequest.value().getBytes());
+        cache.set(setRequest.key(), setRequest.value().getBytes());
         return Response.builder()
                 .responseCode(ResponseCode.OK)
                 .build();
@@ -44,7 +44,7 @@ public class CacheManager {
 
     private Response handleGet(GetRequest getRequest) {
         ResponseCode responseCode;
-        byte[] data = kvCache.get(getRequest.key());
+        byte[] data = cache.get(getRequest.key());
         if(data == null){
             responseCode = ResponseCode.NOT_FOUND;
         }else{

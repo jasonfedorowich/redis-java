@@ -1,9 +1,24 @@
 package org.redis.protocol;
 
-public interface Request {
+import lombok.RequiredArgsConstructor;
 
-    boolean isReadOnly();
+import java.util.List;
 
-    String key();
+@RequiredArgsConstructor
+public abstract class Request {
+
+    protected final List<String> args;
+
+    abstract boolean isReadOnly();
+
+    public String key(){
+        return args.get(0);
+    }
+
+    public String value(){
+        throw new UnsupportedOperationException();
+    }
+
+    abstract long ttl();
 
 }

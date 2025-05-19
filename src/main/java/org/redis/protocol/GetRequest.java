@@ -1,15 +1,12 @@
 package org.redis.protocol;
 
-import lombok.RequiredArgsConstructor;
-
-import java.io.DataInputStream;
 import java.util.List;
 
-@RequiredArgsConstructor
-public class GetRequest implements Request {
+public class GetRequest extends Request {
 
-    private final List<String> args;
-
+    public GetRequest(List<String> args) {
+        super(args);
+    }
 
     @Override
     public boolean isReadOnly() {
@@ -19,5 +16,10 @@ public class GetRequest implements Request {
     @Override
     public String key() {
         return this.args.get(0);
+    }
+
+    @Override
+    long ttl() {
+        return 0;
     }
 }

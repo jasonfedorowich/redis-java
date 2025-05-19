@@ -1,6 +1,6 @@
 package org.redis;
 
-import org.redis.cache.KVCache;
+import org.redis.cache.Cache;
 import org.redis.cache.CacheManager;
 import org.redis.io.NonBlockingServer;
 
@@ -14,7 +14,8 @@ public class Main {
     public static void main(String[] args) {
         //todo add better logging
         System.out.println("Server started....");
-        NonBlockingServer blockingServer = NonBlockingServer.open(PORT, new CacheManager(KVCache.newSimpleInMemoryCache()), NUMBER_OF_THREADS);
+        //todo fix 'new Cache()'
+        NonBlockingServer blockingServer = NonBlockingServer.open(PORT, new CacheManager(new Cache()), NUMBER_OF_THREADS);
         while(true){
             blockingServer.accept();
             //executorService.execute(new ThreadHandler(socket));

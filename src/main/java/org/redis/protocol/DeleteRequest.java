@@ -4,10 +4,11 @@ import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 
-@RequiredArgsConstructor
-public class DeleteRequest implements Request{
+public class DeleteRequest extends Request{
 
-    private final List<String> args;
+    public DeleteRequest(List<String> args) {
+        super(args);
+    }
 
     @Override
     public boolean isReadOnly() {
@@ -17,5 +18,10 @@ public class DeleteRequest implements Request{
     @Override
     public String key() {
         return args.get(0);
+    }
+
+    @Override
+    long ttl() {
+        return 0;
     }
 }
