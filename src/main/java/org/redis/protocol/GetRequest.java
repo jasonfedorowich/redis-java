@@ -18,8 +18,5 @@ public class GetRequest extends Request {
         return this.args.get(0);
     }
 
-    @Override
-    long ttl() {
-        return 0;
-    }
+
 }

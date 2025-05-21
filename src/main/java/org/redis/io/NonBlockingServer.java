@@ -17,6 +17,7 @@ import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.LinkedBlockingQueue;
 
 @Slf4j
 public class NonBlockingServer {
@@ -94,6 +95,7 @@ public class NonBlockingServer {
                             readBuffer = read(socketChannel, readBuffer);
                             List<Request> requests = tryRequest(readBuffer);
                             for(Request req: requests){
+                                //todo maybe some validation on the requests here
                                 Response response = cacheManager.handle(req);
                                 writeQueue.add(bufferForWrite(response));
                             }

@@ -19,6 +19,8 @@ public abstract class Request {
         throw new UnsupportedOperationException();
     }
 
-    abstract long ttl();
+    public long ttl(){
+        throw new UnsupportedOperationException();
+    }
 
 }

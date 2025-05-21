@@ -20,8 +20,4 @@ public class DeleteRequest extends Request{
         return args.get(0);
     }
 
-    @Override
-    long ttl() {
-        return 0;
-    }
 }

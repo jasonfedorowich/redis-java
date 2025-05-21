@@ -23,8 +23,7 @@ public class SetRequest extends Request {
     }
 
     @Override
-    long ttl() {
-        //todo
-        return 0;
+    public long ttl() {
+        return args.size() >= 3 ? Long.parseLong(args.get(2)) : -1;
     }
 }
