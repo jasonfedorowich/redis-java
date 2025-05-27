@@ -1,6 +1,8 @@
 package org.redis.protocol;
 
 import lombok.RequiredArgsConstructor;
+import org.redis.validation.TtlValidator;
+import org.redis.validation.Validate;
 
 import java.io.DataInputStream;
 import java.util.List;
@@ -8,8 +10,12 @@ import java.util.List;
 
 public class SetRequest extends Request {
 
+    @Validate(validator=TtlValidator.class)
+    private final String ttl;
+
     public SetRequest(List<String> args) {
         super(args);
+        this.ttl = args.size() >= 3 ? args.get(2) : "-1";
     }
 
     @Override

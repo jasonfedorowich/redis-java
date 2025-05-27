@@ -26,7 +26,7 @@ public class ClientDriver {
         out.write('s');
         out.write('s');
         out.writeInt(3);
-        out.write('1');
+        out.write('s');
         out.write('0');
         out.write('0');
         int size = out.size();

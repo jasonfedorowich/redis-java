@@ -8,7 +8,7 @@ public class InvalidRequestFormat extends RuntimeException {
         super(message);
     }
 
-    public InvalidRequestFormat(BufferUnderflowException e) {
+    public InvalidRequestFormat(RuntimeException e) {
         super(e);
     }
 }

@@ -3,7 +3,10 @@ package org.redis.io;
 import lombok.extern.slf4j.Slf4j;
 import org.redis.cache.CacheManager;
 import org.redis.error.InvalidRequestFormat;
+import org.redis.error.RequestValidationException;
 import org.redis.protocol.*;
+import org.redis.validation.Validation;
+import org.redis.validation.Violation;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -107,7 +110,8 @@ public class NonBlockingServer {
                             log.error("Error received: {}", e.toString());
                             ByteBuffer error = ByteBuffer.allocate(1);
                             error.put((byte)ResponseCode.ERROR.getCode());
-                            socketChannel.write(error);
+                            error.rewind();
+                            writeQueue.add(error);
                             readBuffer.clear();
                         }
 
@@ -188,7 +192,7 @@ public class NonBlockingServer {
 
             try{
                 return parseRequest(dup);
-            }catch (BufferUnderflowException e){
+            }catch (BufferUnderflowException | RequestValidationException e){
                 log.error("Invalid request");
                 buffer.clear();
                 throw new InvalidRequestFormat(e);
@@ -203,7 +207,15 @@ public class NonBlockingServer {
             for(int i = 0; i < n; i++){
                 byte args = buffer.get();
                 List<String> req = readRequest(args, buffer);
-                requests.add(make(req.get(0), req.subList(1, req.size())));
+                var request = make(req.get(0), req.subList(1, req.size()));
+                var violations = Validation.validate(request);
+                if(!violations.isEmpty() && (violations.size() > 1
+                        || !violations.containsKey(Violation.Type.OK))){
+                    throw new RequestValidationException(violations);
+                }else{
+                    requests.add(request);
+                }
+
             }
             //todo if there are still bytes?
             return requests;
