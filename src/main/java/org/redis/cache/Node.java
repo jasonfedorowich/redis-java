@@ -15,6 +15,4 @@ public class Node implements Serializable {
     private long lastUsed;
     private long ttl = -1;
 
-
-
 }

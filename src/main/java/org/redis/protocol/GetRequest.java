@@ -1,11 +1,13 @@
 package org.redis.protocol;
 
+import lombok.ToString;
+
 import java.util.List;
 
 public class GetRequest extends Request {
 
     public GetRequest(List<String> args) {
-        super(args);
+        super(3, args);
     }
 
     @Override

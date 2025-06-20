@@ -94,12 +94,12 @@ public class NonBlockingServer {
 
                     while(socketChannel.isConnected() || socketChannel.isOpen()){
                         try{
-
                             readBuffer = read(socketChannel, readBuffer);
                             List<Request> requests = tryRequest(readBuffer);
                             for(Request req: requests){
                                 //todo maybe some validation on the requests here
                                 Response response = cacheManager.handle(req);
+                                log.info("Successfully processed request in cache: {}", req);
                                 writeQueue.add(bufferForWrite(response));
                             }
                             if(!requests.isEmpty()){
@@ -225,6 +225,7 @@ public class NonBlockingServer {
             return switch (type) {
                 case "get" -> new GetRequest(req);
                 case "set" -> new SetRequest(req);
+                //todo create del
                 default -> throw new UnsupportedOperationException("Unsupported operation: " + type);
             };
         }

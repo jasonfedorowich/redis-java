@@ -1,13 +1,11 @@
 package org.redis.protocol;
 
-import lombok.RequiredArgsConstructor;
-
 import java.util.List;
 
 public class DeleteRequest extends Request{
 
     public DeleteRequest(List<String> args) {
-        super(args);
+        super(3, args);
     }
 
     @Override
